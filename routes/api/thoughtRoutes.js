@@ -42,18 +42,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// router.post('/:userId', async (req, res) => {
-//     try {
-//         const thoughtData = await User.findOneAndUpdate(
-//             { $push: { thoughts: req.body }},
-//             { new: true, runValidate: true }
-//         );
-//         res.json(thoughtData);
-//     } catch (err) {
-//         res.status(500).json(err);
-//     }
-// });
-
 router.put('/:thoughtId', async (req, res) => {
     try {
         const thoughtData = await Thought.findOneAndUpdate(
@@ -84,15 +72,15 @@ router.delete('/:thoughtId', async (req, res) => {
 
 router.post('/:thoughtId/reactions', async (req, res) => {
     try {
-        const reactionData = await Thought.findOneAndUpdate(
+        const thought = await Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $addToSet: { reactions: req.body }},
             { new: true, runValidators: true }
-        )
-        if (!reactionData) {
+        );
+        if (!thought) {
             return res.status(400).json({ message: 'That thought does not exist!' })
         };
-        res.json(reactionData);
+        res.json(thought);
     } catch (err) {
         res.status(500).json(err);
     }
