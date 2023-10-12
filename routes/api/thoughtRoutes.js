@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User does not exist!' })
         }
-        res.json('Created the thought!')
+        res.json(thought)
     } catch (err) {
         res.status(500).json(err);
     }
